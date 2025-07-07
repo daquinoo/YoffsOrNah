@@ -1,8 +1,6 @@
-# YoffsOrNah
+# YoffsOrNah - Machine Learning Sports Playoff Predictor
 
-Playoff Predictor
-
-Results:
+## Results:
 
 NFL r^2 = 90.4%
 
