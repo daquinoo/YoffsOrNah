@@ -7,7 +7,7 @@ from sklearn.metrics import accuracy_score
 from sqlalchemy import create_engine, text
 
 # Database connection using SQLAlchemy
-hotstreak_db_url = 'mssql+pyodbc://danny1phantom:Popp151565__@yoffsornah.database.windows.net:1433/YoffsOrNah-HotStreak-ChampNFL?driver=ODBC+Driver+18+for+SQL+Server'
+hotstreak_db_url = 'mssql+pyodbc://danny1phantom:{pwd}@yoffsornah.database.windows.net:1433/YoffsOrNah-HotStreak-ChampNFL?driver=ODBC+Driver+18+for+SQL+Server'
 hotstreak_engine = create_engine(hotstreak_db_url)
 
 # Load Data
