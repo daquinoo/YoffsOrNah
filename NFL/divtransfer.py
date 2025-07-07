@@ -2,8 +2,8 @@ import pandas as pd
 from sqlalchemy import create_engine, text
 
 # Database connection using SQLAlchemy
-train_db_url = 'mssql+pyodbc://danny1phantom:Popp151565__@yoffsornah.database.windows.net:1433/YoffsOrNah-train-NFL?driver=ODBC+Driver+18+for+SQL+Server'
-hotstreak_db_url = 'mssql+pyodbc://danny1phantom:Popp151565__@yoffsornah.database.windows.net:1433/YoffsOrNah-HotStreak-ChampNFL?driver=ODBC+Driver+18+for+SQL+Server'
+train_db_url = 'mssql+pyodbc://danny1phantom:{pwd}@yoffsornah.database.windows.net:1433/YoffsOrNah-train-NFL?driver=ODBC+Driver+18+for+SQL+Server'
+hotstreak_db_url = 'mssql+pyodbc://danny1phantom:{pwd}@yoffsornah.database.windows.net:1433/YoffsOrNah-HotStreak-ChampNFL?driver=ODBC+Driver+18+for+SQL+Server'
 train_engine = create_engine(train_db_url)
 hotstreak_engine = create_engine(hotstreak_db_url)
 
