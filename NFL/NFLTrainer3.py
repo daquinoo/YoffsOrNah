@@ -7,7 +7,7 @@ from sklearn.preprocessing import StandardScaler
 from sqlalchemy import create_engine, text
 
 # Database connection using SQLAlchemy
-database_url = 'mssql+pyodbc://danny1phantom:Popp151565__@yoffsornah.database.windows.net:1433/YoffsOrNah-train-NFL?driver=ODBC+Driver+18+for+SQL+Server'
+database_url = 'mssql+pyodbc://danny1phantom:{pwd}@yoffsornah.database.windows.net:1433/YoffsOrNah-train-NFL?driver=ODBC+Driver+18+for+SQL+Server'
 engine = create_engine(database_url)
 
 # Load Data
