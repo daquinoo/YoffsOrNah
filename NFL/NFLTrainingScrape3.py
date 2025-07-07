@@ -1,0 +1,95 @@
+import requests
+from bs4 import BeautifulSoup, Comment
+import pyodbc
+import time
+from scrapfly import ScrapeConfig, ScrapflyClient, ScrapeApiResponse
+
+# Database connection setup
+conn = pyodbc.connect('Driver={ODBC Driver 18 for SQL Server};Server=tcp:yoffsornah.database.windows.net,1433;Database=YoffsOrNah-train-NFL;Uid=danny1phantom;Pwd={Popp151565__};Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;')
+cursor = conn.cursor()
+
+# Scrapfly setup
+SCRAPFLY_API_KEY = 'scp-live-c8122bf4379c43f0a0ebd066f2d38b94'  # Replace with your Scrapfly API key
+scrapfly_client = ScrapflyClient(key=SCRAPFLY_API_KEY)
+
+def fetch_html(url):
+    try:
+        api_response: ScrapeApiResponse = scrapfly_client.scrape(scrape_config=ScrapeConfig(
+            url=url,
+            render_js=True,
+            asp=True
+        ))
+        return api_response.content
+    except Exception as e:
+        print(f"Scrapfly error: {e}")
+        raise Exception(f"Failed to retrieve the webpage using Scrapfly: {e}")
+
+def parse_returns_stats(html_content):
+    soup = BeautifulSoup(html_content, 'html.parser')
+    comments = soup.find_all(string=lambda text: isinstance(text, Comment))
+    returns_comment = next((comment for comment in comments if 'id="returns"' in comment), None)
+    
+    if returns_comment:
+        returns_soup = BeautifulSoup(returns_comment, 'html.parser')
+        tbody = returns_soup.find('table', id='returns').find('tbody')
+    else:
+        print("Failed to find the returns table within the HTML comments.")
+        return []
+
+    rows = tbody.find_all('tr') if tbody else []
+    data = []
+
+    for row in rows:
+        cols = row.find_all('td')
+        if cols and len(cols) >= 12:  # Ensure there are enough columns
+            team_name = cols[0].text.strip()
+            games_played = int(cols[1].text.strip())
+            punt_ret_yds = float(cols[3].text.strip())  # Punt Return Yards
+            punt_ret_td = float(cols[4].text.strip())   # Punt Return TDs
+            kick_ret_yds = float(cols[8].text.strip())  # Kick Return Yards
+            kick_ret_td = float(cols[9].text.strip())  # Kick Return TDs
+
+            st_yds_pg = (punt_ret_yds + kick_ret_yds) / games_played  # Sum Yards per Game
+            st_td_pg = (punt_ret_td + kick_ret_td) / games_played  # Sum TDs per Game
+
+            data.append({
+                'team_name': team_name,
+                'st_yds_pg': st_yds_pg,
+                'st_td_pg': st_td_pg
+            })
+
+    return data
+
+def update_database(data, year):
+    for entry in data:
+        try:
+            cursor.execute("""
+                UPDATE [dbo].[Football-Training-Stats]
+                SET st_yds_pg = CAST(? AS DECIMAL(10,3)), st_td_pg = CAST(? AS DECIMAL(10,3))
+                WHERE team = ? AND year = ?
+            """, (entry['st_yds_pg'], entry['st_td_pg'], entry['team_name'], year))
+            conn.commit()
+        except Exception as e:
+            print(f"Error updating data: {e}")
+
+def main():
+    for year in range(2023, 2023+1):
+        url = f"https://www.pro-football-reference.com/years/{year}/#all_returns_stats"
+        try:
+            html_content = fetch_html(url)
+            if html_content:
+                returns_data = parse_returns_stats(html_content)
+                if returns_data:
+                    update_database(returns_data, year)
+                    print(f"Parsed data successfully for the year {year}.")
+                else:
+                    print(f"No valid data parsed from the HTML for the year {year}.")
+            else:
+                print(f"Failed to retrieve content for the year {year}.")
+        except Exception as e:
+            print(e)
+    conn.close()
+
+if __name__ == "__main__":
+    main()
+
