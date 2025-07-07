@@ -1,0 +1,174 @@
+.app {
+    font-family: Arial, sans-serif;
+}
+
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: #f8f8f8;
+    border-bottom: 1px solid #e7e7e7;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.main-nav {
+    display: flex;
+}
+
+.nav-item {
+    margin-left: 1rem;
+    position: relative;
+    cursor: pointer;
+}
+
+.dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    border: 1px solid #e7e7e7;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    min-width: 150px;
+}
+
+    .dropdown a {
+        padding: 0.25rem 0;
+        text-decoration: none;
+        color: black;
+    }
+
+        .dropdown a:hover {
+            text-decoration: underline;
+        }
+
+.app-main {
+    padding: 2rem;
+}
+
+.app-footer {
+    text-align: center;
+    padding: 1rem;
+    background-color: #f8f8f8;
+    border-top: 1px solid #e7e7e7;
+}
+
+/* GameScroller styles */
+.game-scroller-container {
+    background-color: #f0f0f0;
+    padding: 10px 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.current-games-label {
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.game-scroller {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-bottom: 10px;
+}
+
+.game-item {
+    display: inline-block;
+    margin-right: 20px;
+    padding: 10px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.game-time {
+    font-size: 0.8em;
+    color: #666;
+}
+
+.game-teams {
+    font-size: 0.9em;
+}
+
+    .game-teams .score {
+        font-weight: bold;
+        margin: 0 5px;
+    }
+
+.game-scroller::-webkit-scrollbar {
+    height: 6px;
+}
+
+.game-scroller::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 3px;
+}
+
+.game-scroller::-webkit-scrollbar-track {
+    background-color: #f0f0f0;
+}
+
+.league-tables-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.league-table-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.league-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+    .league-table th,
+    .league-table td {
+        padding: 8px;
+        text-align: left;
+        border: 1px solid #ddd;
+    }
+
+    .league-table thead th,
+    .league-table tfoot th {
+        color: white;
+        font-weight: bold;
+    }
+
+    .league-table thead .league-header th,  
+    .league-table tfoot .league-footer th {
+        font-size: 14px;
+        padding: 10px; /* Adjust padding as needed */
+    }
+
+    .league-table tfoot .league-footer th {
+        content: '\00a0'; /* Add a non-breaking space to ensure the footer has content */
+    }
+
+    .league-table tbody tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    .league-table tbody tr:hover {
+        background-color: #ddd;
+    }
+
+.centered-heading {
+    text-align: center;
+    width: 100%;
+}
+
+.centered-text {
+    text-align: center;
+    width: 100%;
+}
