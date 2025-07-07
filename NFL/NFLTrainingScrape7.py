@@ -7,7 +7,7 @@ from scrapfly import ScrapeConfig, ScrapflyClient, ScrapeApiResponse
 conn = pyodbc.connect('Driver={ODBC Driver 18 for SQL Server};'
                       'Server=tcp:yoffsornah.database.windows.net,1433;'
                       'Database=YoffsOrNah-train-NFL;Uid=danny1phantom;'
-                      'Pwd={Popp151565__};Encrypt=yes;TrustServerCertificate=no;'
+                      'Pwd={pwd};Encrypt=yes;TrustServerCertificate=no;'
                       'Connection Timeout=30;')
 cursor = conn.cursor()
 
